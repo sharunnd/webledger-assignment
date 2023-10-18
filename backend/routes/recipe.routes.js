@@ -5,7 +5,6 @@ const { auth } = require("../middlewares/auth.middleware");
 require("dotenv").config();
 const recipeRouter = express.Router();
 
-
 // endpoint to handle recipe search and user preferences
 recipeRouter.get("/", async (req, res) => {
   const { query } = req.body;
@@ -28,18 +27,19 @@ recipeRouter.get("/", async (req, res) => {
   }
 });
 
-
-
-recipeRouter.post("/save",auth, async (req, res) => {
-  const { recipeId , userID} = req.body;
+recipeRouter.post("/save", auth, async (req, res) => {
+  const { recipeId, userID } = req.body;
 
   try {
     // Fetching recipe information from Spoonacular API
-    const response = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information`, {
-      params: {
-        apiKey: process.env.API_KEY,
-      },
-    });
+    const response = await axios.get(
+      `https://api.spoonacular.com/recipes/${recipeId}/information`,
+      {
+        params: {
+          apiKey: process.env.API_KEY,
+        },
+      }
+    );
 
     // Extract relevant data from the API response
     const {
@@ -51,7 +51,7 @@ recipeRouter.post("/save",auth, async (req, res) => {
       title,
       image,
       summary,
-      dishTypes
+      dishTypes,
     } = response.data;
 
     // Save the recipe information to MongoDB
@@ -65,7 +65,7 @@ recipeRouter.post("/save",auth, async (req, res) => {
       image,
       summary,
       dishTypes,
-      userID    // adding userID
+      userID, // adding userID
     });
 
     await savedRecipe.save();
@@ -77,8 +77,22 @@ recipeRouter.post("/save",auth, async (req, res) => {
   }
 });
 
+recipeRouter.get("/saved-recipes", auth, async (req, res) => {
+  const { userID } = req.body;
 
+  try {
+    const savedRecipes = await RecipeInfoModel.find({ userID });
 
+    if (savedRecipes) {
+      res.status(200).json({ msg: `successfully Fetched saved recipes`, savedRecipes });
+    } else {
+      res.status(400).json({ msg: `Saved recipes not available!` });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 module.exports = {
   recipeRouter,
