@@ -10,18 +10,34 @@ import {
   MenuList,
   MenuItem,
   useMediaQuery,
+  useToast,
 } from "@chakra-ui/react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Cookies from "js-cookie";
+import { LOGOUT_SUCCESS } from "../redux/loginReducer/actionTypes";
+import { useDispatch } from "react-redux";
 
 export const Navbar = () => {
 
   const token = Cookies.get("token");
-
+  const dispatch = useDispatch()
+  const toast = useToast()
+  const navigate = useNavigate()
   const [isSmallerScreen] = useMediaQuery("(max-width: 768px)");
-
+  const handleLogout = () => {
+    toast({
+      position: "top",
+      title: `Logged out!`,
+      status: "success",
+      duration: 1000,
+      isClosable: true,
+    });
+    navigate("/");
+    Cookies.remove("token");
+    dispatch({ type: LOGOUT_SUCCESS });
+  };
   return (
     <Box
       bg="#dbdbf5"
@@ -68,7 +84,7 @@ export const Navbar = () => {
               <Link to={"/"}>Home</Link>
             </Box>
             {token ? (
-              <Button p="10px" mt="10px" mb="10px">
+              <Button p="10px" mt="10px" mb="10px" onClick={handleLogout}>
                 Logout
               </Button>
             ) : (
