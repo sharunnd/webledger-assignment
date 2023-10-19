@@ -41,9 +41,9 @@ export const Navbar = () => {
       >
         <Heading
           ml={{ base: "10px", md: "24px", lg: "40px" }}
-          fontSize={{ base: "20px", sm: "25px", md: "30px", lg: "35px" }}
+          fontSize={{ base: "20px", sm: "25px", md: "30px", lg: "30px" }}
         >
-          BuyCars
+          FindRecipes
         </Heading>
 
         <Input
