@@ -14,18 +14,50 @@ import {
 } from "@chakra-ui/react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import Cookies from "js-cookie";
 import { LOGOUT_SUCCESS } from "../redux/loginReducer/actionTypes";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { getRecipes } from "../redux/recipeSearchReducer/actions";
 
 export const Navbar = () => {
-
   const token = Cookies.get("token");
-  const dispatch = useDispatch()
-  const toast = useToast()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const navigate = useNavigate();
   const [isSmallerScreen] = useMediaQuery("(max-width: 768px)");
+
+  const [keyWords, setKeyWords] = useState("");
+
+  const handleSearch = () => {
+    const searchData = { keyWords };
+    console.log("searchData",searchData);
+    dispatch(getRecipes(searchData))
+      .then((res) => {
+        toast({
+          position: "top",
+          title: `${res.data.msg}`,
+          status: "success",
+          duration: 1000,
+          isClosable: true,
+        });
+       console.log("res .then ",res);
+      
+      })
+      .catch((err) => {
+        toast({
+          position: "top",
+          title: `${err.response.data.msg}`,
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+        });
+       console.log("err .catch ",err);
+      });
+    setKeyWords("")
+  };
+
   const handleLogout = () => {
     toast({
       position: "top",
@@ -62,24 +94,31 @@ export const Navbar = () => {
           FindRecipes
         </Heading>
 
-        <Input
+        <Flex
           w={{
             base: "50%",
             sm: "30%",
-            md: "30%",
-            lg: "30%",
+            md: "25%",
+            lg: "25%",
           }}
-          mx={{ base: "5px" }}
-          type="text"
-          placeholder="Search here"
-          bg={"white"}
-        />
+        >
+          <Input
+            mx={{ base: "5px" }}
+            type="text"
+            placeholder="Search here"
+            bg={"white"}
+            value={keyWords}
+            onChange={(e)=>setKeyWords(e.target.value)}
+          />
+          <IconButton
+            bg={"white"}
+            icon={<SearchIcon />}
+            onClick={handleSearch}
+          />
+        </Flex>
 
         {!isSmallerScreen ? (
-          <Flex
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          <Flex alignItems="center" justifyContent="space-between">
             <Box mr={5}>
               <Link to={"/"}>Home</Link>
             </Box>
