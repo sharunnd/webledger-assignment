@@ -24,6 +24,7 @@ export default function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   
+  
   const handleRegister = () => {
     if (!email || !name || !password) {
       toast({
@@ -55,7 +56,7 @@ export default function Signup() {
         setTimeout(() => {
           navigate("/login")
         }, 1500);
-        
+
       })
       .catch((err) => {
         toast({
