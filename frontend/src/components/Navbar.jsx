@@ -32,7 +32,7 @@ export const Navbar = () => {
 
   const handleSearch = () => {
     const searchData = { keyWords };
-    console.log("searchData",searchData);
+  
     dispatch(getRecipes(searchData))
       .then((res) => {
         toast({
@@ -42,7 +42,6 @@ export const Navbar = () => {
           duration: 1000,
           isClosable: true,
         });
-       console.log("res .then ",res);
       
       })
       .catch((err) => {

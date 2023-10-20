@@ -1,21 +1,55 @@
-import {
-  GridItem,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { Button, GridItem, Image, Text } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { RECIPE_DETAILS_SUCCESS, RECIPE_DETAILS_VIEW_CLICK } from "../redux/recipeSearchReducer/actionTypes";
+import axios from "axios";
+import Cookies from "js-cookie";
 
+export const RecipeCard = ({ image, title, id }) => {
+  const dispatch = useDispatch();
+  const token = Cookies.get("token");
 
-export const RecipeCard = ({ image,title }) => {
+  const viewRecipeDetails = () => {
+    const recipeId = id;
+    dispatch({ type: RECIPE_DETAILS_VIEW_CLICK, payload: id });
+    console.log("idd", recipeId);
+    try {
+      axios
+        .post(`http://localhost:8080/recipes/details`, { recipeId })
+        .then((res) => {
+          const recipe = res.data.recipe
+          console.log(recipe);
+          dispatch({ type: RECIPE_DETAILS_SUCCESS, payload: recipe });
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
   return (
     <>
-      <GridItem p={3} _hover={{boxShadow:'inner',rounded:"5px"}} boxShadow='xl' rounded="5px">
+      <GridItem
+        p={3}
+        _hover={{ boxShadow: "inner", rounded: "5px" }}
+        boxShadow="xl"
+        rounded="5px"
+        gap={10}
+      >
         <Image
           src={image}
           alt="car"
           w="100%"
           height={{ base: "auto", sm: "300px" }}
         />
-        <Text>{title}</Text>
+        <Text fontWeight={600} mt={5}>
+          {title}
+        </Text>
+        <Text>id{id}</Text>
+        <Button bg={"transparent"} onClick={viewRecipeDetails}>
+          <Link to="/recipe-details">View Details</Link>click
+        </Button>
       </GridItem>
     </>
   );

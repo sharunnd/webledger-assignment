@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RecipeCard } from "../components/RecipeCard";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const recipes = useSelector((store) => store.recipeSearchReducer.recipes);
@@ -36,7 +37,7 @@ export default function Home() {
           >
             {recipes &&
               recipes?.map((recipe) => (
-                <RecipeCard key={recipe._id} {...recipe} />
+                <RecipeCard key={recipe.id} {...recipe} />
               ))}
           </Grid>
         )
@@ -58,7 +59,7 @@ export default function Home() {
               <Box>
                 <Image
                   src="https://www.modernfoods.co.in/wp-content/uploads/2018/06/360pizza.png"
-                  h={"200px"}
+                  h={"250px"}
                   w="100%"
                 />
                 <Text fontWeight={600} mt={5}>
@@ -68,7 +69,7 @@ export default function Home() {
               <Box>
                 <Image
                   src="https://theyummybowl.com/wp-content/uploads/Mango-salsa-3-1.jpg"
-                  h={"200px"}
+                  h={"250px"}
                   w="100%"
                 />
                 <Text fontWeight={600} mt={5}>
@@ -78,12 +79,13 @@ export default function Home() {
               <Box>
                 <Image
                   src="https://www.eatyourselfskinny.com/wp-content/uploads/2017/08/smoothie-bowl-4-1096x1644.jpg"
-                  h={"200px"}
+                  h={"250px"}
                   w="100%"
                 />
                 <Text fontWeight={600} mt={5}>
                   Berry Smoothie Bowl
                 </Text>
+                
               </Box>
             </SimpleGrid>
           </Box>
