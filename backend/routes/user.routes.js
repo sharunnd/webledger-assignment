@@ -45,7 +45,7 @@ userRouter.post("/login", async (req, res) => {
             }
           );
           res
-            .status(200)
+            .status(200) 
             .json({ msg: "Login successful", token, role: user.role });
         } else {
           res.status(400).json({ msg: "wrong credentials!" });
