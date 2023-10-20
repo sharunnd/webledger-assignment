@@ -1,4 +1,4 @@
-import { RECIPE_DETAILS_SUCCESS, RECIPE_DETAILS_VIEW_CLICK, RECIPE_SEARCH_FAILURE, RECIPE_SEARCH_REQUEST, RECIPE_SEARCH_SUCCESS } from "./actionTypes"
+import { GET_SAVED_RECIPES, RECIPE_DETAILS_SUCCESS, RECIPE_DETAILS_VIEW_CLICK, RECIPE_SEARCH_FAILURE, RECIPE_SEARCH_REQUEST, RECIPE_SEARCH_SUCCESS } from "./actionTypes"
 
 
 const initialState = {
@@ -6,7 +6,8 @@ const initialState = {
     isError:false,
     recipes:[],
     id:null,
-    recipeDetails:[]
+    recipeDetails:[],
+    savedRecipes:[]
 }
 
 
@@ -36,6 +37,11 @@ export const reducer = (state=initialState,{type,payload})=>{
         case RECIPE_DETAILS_SUCCESS:{
             return {
                 ...state,isLoading:false,recipeDetails:payload
+            }
+        }
+        case GET_SAVED_RECIPES:{
+            return {
+                ...state,isLoading:false,savedRecipes:payload
             }
         }
         default:{

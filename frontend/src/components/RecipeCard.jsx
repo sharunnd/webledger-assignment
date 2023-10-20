@@ -7,18 +7,15 @@ import Cookies from "js-cookie";
 
 export const RecipeCard = ({ image, title, id }) => {
   const dispatch = useDispatch();
-  const token = Cookies.get("token");
 
   const viewRecipeDetails = () => {
     const recipeId = id;
     dispatch({ type: RECIPE_DETAILS_VIEW_CLICK, payload: id });
-    console.log("idd", recipeId);
     try {
       axios
         .post(`http://localhost:8080/recipes/details`, { recipeId })
         .then((res) => {
           const recipe = res.data.recipe
-          console.log(recipe);
           dispatch({ type: RECIPE_DETAILS_SUCCESS, payload: recipe });
         })
         .catch((err) => {
@@ -46,9 +43,8 @@ export const RecipeCard = ({ image, title, id }) => {
         <Text fontWeight={600} mt={5}>
           {title}
         </Text>
-        <Text>id{id}</Text>
         <Button bg={"transparent"} onClick={viewRecipeDetails}>
-          <Link to="/recipe-details">View Details</Link>click
+          <Link to="/recipe-details">View Details</Link>
         </Button>
       </GridItem>
     </>

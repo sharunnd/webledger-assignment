@@ -10,12 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RecipeCard } from "../components/RecipeCard";
-import { Link } from "react-router-dom";
+
 
 export default function Home() {
   const recipes = useSelector((store) => store.recipeSearchReducer.recipes);
   const isLoading = useSelector((store) => store.recipeSearchReducer.isLoading);
-  console.log("home", recipes);
+
   return (
     <Box >
       {recipes.length > 0 ? (
