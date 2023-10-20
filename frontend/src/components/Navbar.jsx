@@ -121,6 +121,9 @@ export const Navbar = () => {
             <Box mr={5}>
               <Link to={"/"}>Home</Link>
             </Box>
+            <Box mr={5}>
+              <Link to={"/saved"}>Saved Recipes</Link>
+            </Box>
             {token ? (
               <Button p="10px" mt="10px" mb="10px" onClick={handleLogout}>
                 Logout
@@ -147,6 +150,9 @@ export const Navbar = () => {
             <MenuList>
               <MenuItem as={Link} to={"/"}>
                 Home
+              </MenuItem>
+              <MenuItem as={Link} to={"/saved"}>
+              Saved Recipes
               </MenuItem>
 
               {!token ? (
