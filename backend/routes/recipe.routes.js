@@ -6,14 +6,14 @@ require("dotenv").config();
 const recipeRouter = express.Router();
 
 // endpoint to handle recipe search and user preferences
-recipeRouter.get("/", async (req, res) => {
-  const { query } = req.body;
+recipeRouter.post("/", async (req, res) => {
+  const { keyWords } = req.body;
   try {
     const response = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch`,
       {
         params: {
-          query,
+          query:keyWords,
           apiKey: process.env.API_KEY,
         },
       }
@@ -27,8 +27,8 @@ recipeRouter.get("/", async (req, res) => {
   }
 });
 
-recipeRouter.post("/save", auth, async (req, res) => {
-  const { recipeId, userID } = req.body;
+recipeRouter.post("/details", async (req, res) => {
+  const { recipeId } = req.body;
 
   try {
     // Fetching recipe information from Spoonacular API
@@ -38,7 +38,29 @@ recipeRouter.post("/save", auth, async (req, res) => {
         params: {
           apiKey: process.env.API_KEY,
         },
-      }
+      } 
+    );
+    
+    const recipe = response.data;
+   
+    res.status(200).json({ msg: "Recipe details.",recipe });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+recipeRouter.post("/save", auth, async (req, res) => {
+  const { recipeId, userID } = req.body;
+  try {
+    // Fetching recipe information from Spoonacular API
+    const response = await axios.get(
+      `https://api.spoonacular.com/recipes/${recipeId}/information`,
+      {
+        params: {
+          apiKey: process.env.API_KEY,
+        },
+      } 
     );
 
     // Extract relevant data from the API response
@@ -69,7 +91,7 @@ recipeRouter.post("/save", auth, async (req, res) => {
     });
 
     await savedRecipe.save();
-
+    
     res.status(201).json({ message: "Recipe information saved successfully." });
   } catch (error) {
     console.error(error);

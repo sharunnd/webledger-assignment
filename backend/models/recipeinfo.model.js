@@ -8,7 +8,7 @@ const recipeInfoSchema = mongoose.Schema({
   cheap: Boolean,
   title: String,
   image: String,
-  summary: String,
+  summary: String, 
   dishTypes: [String],
   userID: String
 },{
