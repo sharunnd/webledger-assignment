@@ -74,6 +74,7 @@ recipeRouter.post("/save", auth, async (req, res) => {
       image,
       summary,
       dishTypes,
+      instructions
     } = response.data;
 
     // Save the recipe information to MongoDB
@@ -87,6 +88,7 @@ recipeRouter.post("/save", auth, async (req, res) => {
       image,
       summary,
       dishTypes,
+      instructions,
       userID, // adding userID
     });
 

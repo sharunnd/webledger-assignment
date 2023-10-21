@@ -10,7 +10,8 @@ const recipeInfoSchema = mongoose.Schema({
   image: String,
   summary: String, 
   dishTypes: [String],
-  userID: String
+  userID: String,
+  instructions:String
 },{
   versionKey:false
 });
