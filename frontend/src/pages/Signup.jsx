@@ -9,7 +9,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
@@ -96,6 +96,7 @@ export default function Signup() {
             <Input
               type="text"
               placeholder="Enter name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </FormControl>
@@ -103,6 +104,7 @@ export default function Signup() {
             <Input
               type="email"
               placeholder="Enter email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
@@ -110,6 +112,7 @@ export default function Signup() {
             <Input
               type="password"
               placeholder="Enter password"
+              value={password}
               onChange={(e) => setPass(e.target.value)}
             />
           </FormControl>

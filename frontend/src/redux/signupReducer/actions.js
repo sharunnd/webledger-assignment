@@ -8,7 +8,7 @@ import {
 export const signupFun = (data) => (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
   return axios
-    .post(`http://localhost:8080/users/signup`, data)
+    .post(`https://findrecipes.onrender.com/users/signup`, data)
     .then((res) => {
       dispatch({ type: REGISTER_SUCCESS });
 

@@ -1,8 +1,6 @@
 import {
   Box,
   Flex,
-  Grid,
-  GridItem,
   Image,
   Text,
   useToast,
@@ -29,7 +27,7 @@ export default function SavedRecipes() {
   useEffect(() => {
     try {
       axios
-        .get(`http://localhost:8080/recipes/saved-recipes`, {
+        .get(`https://findrecipes.onrender.com/recipes/saved-recipes`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -39,7 +37,7 @@ export default function SavedRecipes() {
           dispatch({ type: GET_SAVED_RECIPES, payload: res.data.savedRecipes });
         })
         .catch((err) => {
-          console.log(err);
+         
           toast({
             position: "top",
             title: `${err.response.data.error}`,
@@ -52,11 +50,11 @@ export default function SavedRecipes() {
       console.log(error);
     }
   }, []);
-  console.log(savedRecipes);
+
   return (
     <Box>
       <Box m={"auto"}>
-        {savedRecipes ? (
+        {savedRecipes.length > 0 ? (
           savedRecipes.map((recipe) => (
             <Flex
               flexDirection={"column"}
@@ -84,7 +82,21 @@ export default function SavedRecipes() {
             </Flex>
           ))
         ) : (
-          <Box>No recipes saved</Box>
+          <Box>
+            <Flex
+              flexDirection={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              h={"100vh"}
+            >
+              <Text
+                as="samp"
+                fontSize={{ base: "25px", md: "30px", lg: "40px" }}
+              >
+                You haven't saved any recipes yet.
+              </Text>
+            </Flex>
+          </Box>
         )}
       </Box>
     </Box>

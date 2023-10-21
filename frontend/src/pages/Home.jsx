@@ -45,11 +45,9 @@ export default function Home() {
         <>
           <Heading pt={"10%"}>Welcome to FindRecipes!</Heading>
           <Box w={{ base: "90%", lg: "80%" }} m={"auto"}>
-            <Text fontSize={{ base: "10px", lg: "20px" }}>
-              Explore a wide variety of recipes and find the perfect meal for
-              any occasion. Use our search bar in the navbar to search for
-              recipes based on keywords or filters. Save your favorite recipes
-              to come back to them later.
+            <Text fontWeight={400} fontSize={{ base: "10px", lg: "25px" }}>
+              Use our search bar in the navbar to search for
+              recipes based on keywords or filters. Save your favorite recipes.
             </Text>
             <SimpleGrid
               columns={{ base: 1, md: 2, lg: 3 }}

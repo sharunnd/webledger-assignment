@@ -19,19 +19,18 @@ export default function RecipeDetails() {
 
   // Process instructions to remove <ol> and <li> tags
   const processedInstructions = recipeDetails.instructions?.replace(/<ol>|<\/ol>|<li>|<\/li>/g,"");
+
   const handleSave = () => {
     const recipeId = { recipeId:id };
-    console.log("recipeId",recipeId);
     try {
       axios
-       .post(`http://localhost:8080/recipes/save`,recipeId, {
+       .post(`https://findrecipes.onrender.com/recipes/save`,recipeId, {
          headers: {
            Authorization: `Bearer ${token}`,
            "Content-Type": "application/json",
          },
        })
        .then((res) => {
-         console.log(res);
          toast({
           position: 'top',
           title: `${res.data.message}`,
@@ -41,7 +40,6 @@ export default function RecipeDetails() {
         })
        })
        .catch((err) => {
-         console.log(err);
          toast({
           position: 'top',
           title: `${err.response.data.error}`,
