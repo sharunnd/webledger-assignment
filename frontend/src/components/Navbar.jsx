@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import Cookies from "js-cookie";
 import { LOGOUT_SUCCESS } from "../redux/loginReducer/actionTypes";
@@ -27,12 +27,13 @@ export const Navbar = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [isSmallerScreen] = useMediaQuery("(max-width: 768px)");
-
   const [keyWords, setKeyWords] = useState("");
+  const location = useLocation();
+  const homeLocation = location.pathname === "/";
 
   const handleSearch = () => {
     const searchData = { keyWords };
-  
+
     dispatch(getRecipes(searchData))
       .then((res) => {
         toast({
@@ -42,7 +43,6 @@ export const Navbar = () => {
           duration: 1000,
           isClosable: true,
         });
-      
       })
       .catch((err) => {
         toast({
@@ -52,9 +52,8 @@ export const Navbar = () => {
           duration: 1500,
           isClosable: true,
         });
-       console.log("err .catch ",err);
       });
-    setKeyWords("")
+    setKeyWords("");
   };
 
   const handleLogout = () => {
@@ -93,7 +92,30 @@ export const Navbar = () => {
           FindRecipes
         </Heading>
 
-        <Flex
+        {homeLocation ? (
+          <Flex
+            w={{
+              base: "50%",
+              sm: "30%",
+              md: "25%",
+              lg: "25%",
+            }}
+          >
+            <Input
+              mx={{ base: "5px" }}
+              type="text"
+              placeholder="Search here"
+              bg={"white"}
+              value={keyWords}
+              onChange={(e) => setKeyWords(e.target.value)}
+            />
+            <IconButton
+              bg={"white"}
+              icon={<SearchIcon />}
+              onClick={handleSearch}
+            />
+          </Flex>
+        ):(<Flex
           w={{
             base: "50%",
             sm: "30%",
@@ -101,20 +123,8 @@ export const Navbar = () => {
             lg: "25%",
           }}
         >
-          <Input
-            mx={{ base: "5px" }}
-            type="text"
-            placeholder="Search here"
-            bg={"white"}
-            value={keyWords}
-            onChange={(e)=>setKeyWords(e.target.value)}
-          />
-          <IconButton
-            bg={"white"}
-            icon={<SearchIcon />}
-            onClick={handleSearch}
-          />
-        </Flex>
+          {/* empty flex box to make space */}
+        </Flex>)}
 
         {!isSmallerScreen ? (
           <Flex alignItems="center" justifyContent="space-between">
@@ -152,7 +162,7 @@ export const Navbar = () => {
                 Home
               </MenuItem>
               <MenuItem as={Link} to={"/saved"}>
-              Saved Recipes
+                Saved Recipes
               </MenuItem>
 
               {!token ? (

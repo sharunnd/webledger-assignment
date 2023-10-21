@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { RECIPE_DETAILS_SUCCESS, RECIPE_DETAILS_VIEW_CLICK } from "../redux/recipeSearchReducer/actionTypes";
 import axios from "axios";
-import Cookies from "js-cookie";
+
 
 export const RecipeCard = ({ image, title, id }) => {
   const dispatch = useDispatch();
@@ -13,13 +13,13 @@ export const RecipeCard = ({ image, title, id }) => {
     dispatch({ type: RECIPE_DETAILS_VIEW_CLICK, payload: id });
     try {
       axios
-        .post(`http://localhost:8080/recipes/details`, { recipeId })
+        .post(`https://findrecipes.onrender.com/recipes/details`, { recipeId })
         .then((res) => {
           const recipe = res.data.recipe
           dispatch({ type: RECIPE_DETAILS_SUCCESS, payload: recipe });
         })
         .catch((err) => {
-          console.log("err", err);
+          console.log(err);
         });
     } catch (error) {
       console.log("error", error);
