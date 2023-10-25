@@ -19,6 +19,7 @@ FindRecipes is a web application that allows users to search for recipes based o
 - Spoonacular API
 
 ## Backend Development:
+
 #### Backend is deployed on Render.
 Setting up the Backend:
 
